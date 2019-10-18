@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 import numpy as np
@@ -19,7 +19,7 @@ from socket import timeout
 
 #  Find the json data files from all available folders: 
 
-# In[2]:
+# In[ ]:
 
 
 data = []
@@ -31,7 +31,7 @@ for root, dirs, files in os.walk(os.getcwd()):
 
 # Load json files and make a dataframe for text messages: 
 
-# In[3]:
+# In[ ]:
 
 
 all_data = []
@@ -46,7 +46,7 @@ all_data = pd.concat(all_data)
 
 # Make a dataframe from rows that contain a link (contain 'http'):
 
-# In[4]:
+# In[ ]:
 
 
 URL_df = all_data[all_data['text'].str.contains('http')]
@@ -54,7 +54,7 @@ URL_df = all_data[all_data['text'].str.contains('http')]
 
 # Function which finds URLs for each row in the dataframe:
 
-# In[5]:
+# In[ ]:
 
 
 def find_url(row):
@@ -78,7 +78,7 @@ def find_url(row):
 
 # Applying find_url function to the message texts and adding another column to the dataframe for URLs:
 
-# In[6]:
+# In[ ]:
 
 
 URL_df['URL'] = URL_df['text'].apply(find_url)
@@ -86,7 +86,7 @@ URL_df['URL'] = URL_df['text'].apply(find_url)
 
 # Data cleaning for html pages: removing some characters from the text and split the data by comma
 
-# In[7]:
+# In[ ]:
 
 
 def str_clean(input):
@@ -98,7 +98,7 @@ def str_clean(input):
 
 # Loading url page content:
 
-# In[10]:
+# In[ ]:
 
 
 def visible(element):
@@ -115,15 +115,15 @@ def url_loader(link):
     try:
         html = urllib.request.urlopen(link, timeout=10)
     except urllib.error.URLError as e:
-        html = False
-        return False
+        html = None
+        return None
 #     except (HTTPError, URLError) as error:
     except timeout:
-        html = False
-        return False
+        html = None
+        return None
     except requests.exception.InvalidURL:
-        html = False
-        return False
+        html = None
+        return None
 
 
     soup = BeautifulSoup(html)
@@ -146,14 +146,17 @@ def url_loader(link):
 # In[ ]:
 
 
+url_list = []
 for i in range(URL_df['URL'].shape[0]):
+    temp = []
     for l in URL_df['URL'].iloc[i]:
 #         print(l)
-        url_loader(l)
+        temp.append(url_loader(l))
+    url_list.append(temp)
 
 
 # In[ ]:
 
 
-
+URL_df['URL_b'] = url_list
 
