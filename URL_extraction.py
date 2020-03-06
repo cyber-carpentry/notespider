@@ -4,14 +4,14 @@
 # In[ ]:
 
 
-import numpy as np
+# import numpy as np
 import os
 import pandas as pd
-import json
+# import json
 import re
-import networkx as nx
-import nltk
-import spacy
+# import networkx as nx
+# import nltk
+# import spacy
 import urllib.request
 from bs4 import BeautifulSoup
 from socket import timeout
@@ -71,7 +71,8 @@ def find_url(row):
     text = str(re.sub(r'\\', ' ', text))  
     text = str(re.sub(',', ' ', text))
     
-    urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+    # urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+    urls = re.findall('http[s]?://hackmd.io/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
     print(urls)
     return (urls)
 
